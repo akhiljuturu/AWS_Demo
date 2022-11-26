@@ -1,6 +1,6 @@
 ---
   - name: Sample Playbook
-    hosts: webserver
+    hosts: "{{ target }}"
     become: yes
     tasks:
       - name: Copying the project file in remote server
