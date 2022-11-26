@@ -7,6 +7,11 @@ parameters {
 }
 stages{
 stage("verification"){
+   agent {
+    node {
+	 label 'CM_Slave1'
+	}  
+   }
  steps{
   script{
    echo "${params.Branch}"
@@ -18,6 +23,11 @@ stage("verification"){
 
 
  stage("Deployment"){
+    agent {
+    node {
+	 label 'CM_Slave1'
+	}  
+   }
    when {
     expression {params.Deploy == "true" }
  }
@@ -33,5 +43,4 @@ stage("verification"){
    }
   }
  }
-
 
