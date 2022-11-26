@@ -6,6 +6,11 @@ parameters {
 }
 stages{
  stage("Paramter_Values"){
+  agent {
+    node {
+	 label 'CM_Slave1'
+	}  
+   } 
   steps{
    script{
      echo "$Branch"    
@@ -17,6 +22,11 @@ stages{
 
 
  stage("SCM Or Cloning"){
+   agent {
+    node {
+	 label 'CM_Slave1'
+	}  
+   }
   steps{
    script{
      echo "Cloning Started"
@@ -26,6 +36,11 @@ stages{
     }
   }
  stage("Maven"){
+   agent {
+    node {
+	 label 'CM_Slave1'
+	}  
+   }
   steps{
    script{
      echo "maven Started"
@@ -56,6 +71,11 @@ stages{
 
 
  stage("Calling CD Job"){
+   agent {
+    node {
+	 label 'CM_Slave1'
+	}  
+   }
   steps{
    script{
      echo "Started"
@@ -68,4 +88,3 @@ stages{
   }
  }
 }
-
