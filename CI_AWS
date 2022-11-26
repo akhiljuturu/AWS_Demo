@@ -1,0 +1,71 @@
+pipeline { 
+agent any 
+parameters {
+  booleanParam description: 'Please Select to deploy or Not', name: 'Deploy'
+  choice choices: ['master', 'Dev'], description: 'Please select the Branch', name: 'Branch'
+}
+stages{
+ stage("Paramter_Values"){
+  steps{
+   script{
+     echo "$Branch"    
+     echo "$Deploy"   
+     }
+    }
+  }
+
+
+
+ stage("SCM Or Cloning"){
+  steps{
+   script{
+     echo "Cloning Started"
+     git branch: '$Branch', credentialsId: 'Github_credentials', url: 'https://github.com/naveen5758/sample_project.git'
+     echo "Cloning Completed"   
+     }
+    }
+  }
+ stage("Maven"){
+  steps{
+   script{
+     echo "maven Started"
+     sh 'mvn clean package'
+     echo "maven Completed"   
+     }
+    }
+  }
+ stage("SonarScanner"){
+  steps{
+   script{
+     echo "Scanning Started"
+
+     echo "Scanning Completed"   
+     }
+    }
+  }
+
+ stage("Sonar Qube"){
+  steps{
+   script{
+     echo "SonarQube Started"
+
+     echo "SonarQube Completed"   
+     }
+    }
+  }
+
+
+ stage("Calling CD Job"){
+  steps{
+   script{
+     echo "Started"
+      build job: 'continous_deployement', parameters: [
+      string(name: 'Deploy', value:"${params.Deploy}"),
+      string(name:'Branch', value: "${params.Branch}")]
+     echo "Completed"   
+     }
+    }
+  }
+ }
+}
+
