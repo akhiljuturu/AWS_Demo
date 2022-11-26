@@ -1,0 +1,37 @@
+pipeline { 
+agent any 
+parameters {
+  string defaultValue: '', description: 'Please select the name', name: 'Deploy', trim: true
+  string defaultValue: '', description: 'Please select the Choice ', name: 'Branch'
+  
+}
+stages{
+stage("verification"){
+ steps{
+  script{
+   echo "${params.Branch}"
+   echo "${params.Deploy}"
+
+       }
+    }
+ }
+
+
+ stage("Deployment"){
+   when {
+    expression {params.Deploy == "true" }
+ }
+  steps{
+   script{
+     echo "Deployment Started"
+     sh 'ssh root@172.31.86.46 /root/hcl/tomcat/bin/shutdown.sh'
+     sh 'scp -r /var/lib/jenkins/workspace/continous_integration/target/citibank.war root@172.31.86.46:/root/hcl/tomcat/webapps/'
+     sh 'ssh root@172.31.86.46 /root/hcl/tomcat/bin/startup.sh'
+     echo "Deployement Completed"   
+     }
+    }
+   }
+  }
+ }
+
+
