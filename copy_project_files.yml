@@ -1,0 +1,9 @@
+---
+  - name: Sample Playbook
+    hosts: webserver
+    become: yes
+    tasks:
+      - name: Copying the project file in remote server
+        copy:
+          src: /root/a.txt
+          dest: /root/project_files/
