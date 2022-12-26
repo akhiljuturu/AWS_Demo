@@ -30,7 +30,7 @@ stages{
   steps{
    script{
      echo "Cloning Started"
-     git branch: '$Branch', credentialsId: 'Github_credentials', url: 'https://github.com/naveen5758/sample_project.git'
+     git 'https://github.com/naveen5758/sample_project.git'
      echo "Cloning Completed"   
      }
     }
@@ -49,25 +49,6 @@ stages{
      }
     }
   }
- stage("SonarScanner"){
-  steps{
-   script{
-     echo "Scanning Started"
-
-     echo "Scanning Completed"   
-     }
-    }
-  }
-
- stage("Sonar Qube"){
-  steps{
-   script{
-     echo "SonarQube Started"
-
-     echo "SonarQube Completed"   
-     }
-    }
-  }
 
 
  stage("Calling CD Job"){
@@ -79,7 +60,7 @@ stages{
   steps{
    script{
      echo "Started"
-      build job: 'continous_deployement', parameters: [
+      build job: 'C-I1', parameters: [
       string(name: 'Deploy', value:"${params.Deploy}"),
       string(name:'Branch', value: "${params.Branch}")]
      echo "Completed"   
