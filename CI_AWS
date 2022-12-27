@@ -1,69 +1,70 @@
 pipeline { 
 agent any 
 parameters {
-  booleanParam description: 'Please Select to deploy or Not', name: 'Deploy'
-  choice choices: ['master', 'Dev'], description: 'Please select the Branch', name: 'Branch'
+  booleanParam description: 'please select to deploy or Not', name: 'Deploy'
+  choice choices: ['master', 'Dev'], description: 'please select the Branch', name: 'Branch'
 }
+tools { 
+        maven 'maven' 
+         
+    }
 stages{
- stage("Paramter_Values"){
+ stage("Parameter_Values"){
   agent {
     node {
-	 label 'CM_Slave1'
-	}  
-   } 
-  steps{
+     label 'slave1
+    }
+   }
+steps{
    script{
-     echo "$Branch"    
+     echo "$Branch"
      echo "$Deploy"   
      }
     }
   }
 
 
-
- stage("SCM Or Cloning"){
-   agent {
+  stage("SCM Or Cloning"){
+    agent {
     node {
-	 label 'CM_Slave1'
-	}  
+     label 'slave1
+    }
    }
   steps{
    script{
      echo "Cloning Started"
-     git 'https://github.com/naveen5758/sample_project.git'
+     git 'https://github.com/akhiljuturu/sample_project.git'
      echo "Cloning Completed"   
      }
     }
   }
- stage("Maven"){
-   agent {
+  stage("maven"){
+    agent {
     node {
-	 label 'CM_Slave1'
-	}  
+     label 'slave1
+    }
    }
   steps{
    script{
      echo "maven Started"
      sh 'mvn clean package'
-     echo "maven Completed"   
+     echo "maven Completed" 
      }
     }
   }
-
-
- stage("Calling CD Job"){
-   agent {
+  stage("Calling CD Job"){
+    agent {
     node {
-	 label 'CM_Slave1'
-	}  
+     label 'slave1
+    }
    }
   steps{
    script{
      echo "Started"
-      build job: 'C-I1', parameters: [
+    build job: 'C-I1', parameters: [
       string(name: 'Deploy', value:"${params.Deploy}"),
       string(name:'Branch', value: "${params.Branch}")]
-     echo "Completed"   
+     echo"Completed"  
      }
     }
   }
