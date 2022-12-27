@@ -79,7 +79,7 @@ stages{
   steps{
    script{
      echo "Started"
-      build job: 'continous_deployement', parameters: [
+      build job: 'c-D1', parameters: [
       string(name: 'Deploy', value:"${params.Deploy}"),
       string(name:'Branch', value: "${params.Branch}")]
      echo "Completed"   
